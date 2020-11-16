@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+
+  filebeat:
+    hostname: filebeat
+    image: docker-logs-elk/filebeat:1.0.0
+    build:
+      context: filebeat
+      dockerfile: Dockerfile
+    volumes:
+      # needed to access all docker logs (read only) :
+     - "/var/lib/docker/containers:/usr/share/dockerlogs/data:ro"
+      # needed to access additional informations about containers
+     - "/var/run/docker.sock:/var/run/docker.sock"
+     #For log file
+     - "/home/ubuntu/insbay-official/logs/gateway:/insbay/log/nginx"
+    networks: 
+      - internal-network
+
+networks: 
+    internal-network:
