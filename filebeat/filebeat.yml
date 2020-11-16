@@ -4,10 +4,30 @@ filebeat.inputs:
 - type: log
   # Change to true to enable this input configuration.
   enabled: true
-  scan_frequency: 100s
+  scan_frequency: 10s
   # Paths that should be crawled and fetched. Glob based paths.
   paths:
-    - /insbay/log/nginx/*.log  
+    - /insbay/log/nginx/access.log  
+  # multiline:
+  #   pattern: '^[0-9]{4}\/[0-9]{2}\/[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2} \[warn\]'
+  #   negate: true
+  #   match: after
+  multiline:
+    pattern: '^[0-9]{3}.[0-9]{3}.[0-9]{3}.[0-9]{3} - - \[.+\]'
+    negate: true
+    match: after
+  # exclude_lines: ['^[0-9]{3}.[0-9]{3}.[0-9]{3}.[0-9]{3} - - \[.+\]']
+  fields:
+    index_field: nginx_access_log
+  fields_under_root: true
+
+- type: log
+  # Change to true to enable this input configuration.
+  enabled: true
+  scan_frequency: 10s
+  # Paths that should be crawled and fetched. Glob based paths.
+  paths:
+    - /insbay/log/nginx/error.log 
   # multiline:
   #   pattern: '^[0-9]{4}\/[0-9]{2}\/[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2} \[warn\]'
   #   negate: true
@@ -16,9 +36,9 @@ filebeat.inputs:
     pattern: '^[0-9]{4}\/[0-9]{2}\/[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2} \[.+\]'
     negate: true
     match: after
-  exclude_lines: ['^[0-9]{3}.[0-9]{3}.[0-9]{3}.[0-9]{3} - - \[.+\]']
+  # exclude_lines: ['^[0-9]{3}.[0-9]{3}.[0-9]{3}.[0-9]{3} - - \[.+\]']
   fields:
-    index_field: nginx_service
+    index_field: nginx_error_log
   fields_under_root: true
 
 processors:
