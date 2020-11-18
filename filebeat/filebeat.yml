@@ -13,7 +13,7 @@ filebeat.inputs:
   #   negate: true
   #   match: after
   multiline:
-    pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4} - - \[.+\]'
+    pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|)){4} - - \[.+\]'
     negate: true
     match: after
   # exclude_lines: ['^[0-9]{3}.[0-9]{3}.[0-9]{3}.[0-9]{3} - - \[.+\]']
